@@ -1,9 +1,10 @@
 const express = require("express");
-const userModels = require("./models/user");
+const { sequelize, ConnectToDb } = require("./db");
 const app = express();
 
 app.use(express.json());
 
-app.listen(4000, () => {
+app.listen(4000, async () => {
   console.log("Server started on port 4000");
+  await ConnectToDb();
 });
