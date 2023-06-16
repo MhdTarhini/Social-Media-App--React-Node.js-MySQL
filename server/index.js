@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, ConnectToDb } = require("./db");
+const { ConnectToDb } = require("./db");
 const app = express();
 
 app.use(express.json());

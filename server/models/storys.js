@@ -33,13 +33,13 @@ userModels.hasMany(StorysModel, {
 });
 StorysModel.belongsTo(userModels, { foreignKey: "UserId" });
 
-(async () => {
-  try {
-    await sequelize.sync({ alter: true });
-  } catch (error) {
-    console.log(error);
-  }
-  // Code here
-})();
+// (async () => {
+//   try {
+//     await sequelize.sync({ alter: true });
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   // Code here
+// })();
 
 module.exports = StorysModel;
