@@ -17,8 +17,7 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 
 function App() {
-  const {currentUser} = useContext(AuthContext);
-  console.log("hi");
+  const { currentUser } = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
