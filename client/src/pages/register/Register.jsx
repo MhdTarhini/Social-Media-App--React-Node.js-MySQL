@@ -5,22 +5,26 @@ import axios from "axios";
 
 const Register = () => {
   const [register, setRegister] = useState({
-    username: "",
+    name: "",
     password: "",
     email: "",
   });
+  const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const handleChange = (e) => {
     setRegister((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    // console.log(register);
   };
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
       console.log(register);
-      await axios.post("http://localhost:4000/api/register", register);
+      await axios.post("/auth/register", register);
+      // setMessage("User registered successfully"); // Set the success message
+      setError(null); // Reset the error message
     } catch (err) {
-      setError(error.response.data);
+      // setMessage(null); // Reset the success message
+      console.log(err);
+      setError(err.response.data); // Set the error message
     }
   };
 
@@ -40,7 +44,7 @@ const Register = () => {
               type="text"
               placeholder="Username"
               onChange={handleChange}
-              name="username"
+              name="name"
             />
             <input
               type="email"
@@ -50,11 +54,13 @@ const Register = () => {
             />
             <input
               type="password"
-              placeholder="email"
+              placeholder="password"
               onChange={handleChange}
               name="password"
             />
-            {error && <div>{error}</div>}
+            {error && (
+              <div style={{ color: "red", fontSize: "12px" }}>{error}</div>
+            )}
             <button onClick={handlesubmit}>Register</button>
           </form>
         </div>
