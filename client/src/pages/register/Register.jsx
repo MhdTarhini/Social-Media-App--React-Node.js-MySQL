@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
 import { useState } from "react";
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [register, setRegister] = useState({
     name: "",
     password: "",
     email: "",
   });
-  const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const handleChange = (e) => {
     setRegister((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,14 +17,10 @@ const Register = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(register);
       await axios.post("/auth/register", register);
-      // setMessage("User registered successfully"); // Set the success message
-      setError(null); // Reset the error message
+      navigate("/login");
     } catch (err) {
-      // setMessage(null); // Reset the success message
-      console.log(err);
-      setError(err.response.data); // Set the error message
+      setError(err.response.data);
     }
   };
 
