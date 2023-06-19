@@ -1,10 +1,9 @@
 import "./share.scss";
 import Image from "../../assets/img.png";
-import Map from "../../assets/map.png";
-import Friend from "../../assets/friend.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
+import moment from "moment";
 
 const Share = () => {
   const { currentUser } = useContext(AuthContext);
@@ -32,13 +31,16 @@ const Share = () => {
       console.log(error);
     }
   };
-  console.log(postVideo);
-  const sharePost = () => {
-    if (postImage) {
-      uploadImage();
-    }
-    if (postVideo) {
-      uploadVideo();
+  const sharePost = async () => {
+    try {
+      await axios.post("/posts/addPost", {
+        content: postcontent,
+        postImage: postImage ? await uploadImage() : "",
+        postVideo: postVideo ? await uploadVideo() : "",
+        createdAt: moment().startOf("hour").fromNow(),
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -85,10 +87,10 @@ const Share = () => {
                 </div>
               </label>
             </div>
-            <div className="item">
+            {/* <div className="item">
               <img src={Friend} alt="" />
               <span>Tag Friends</span>
-            </div>
+            </div> */}
           </div>
           <div className="right">
             <button onClick={() => sharePost()}>Share</button>

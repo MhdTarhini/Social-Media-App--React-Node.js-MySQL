@@ -14,7 +14,7 @@ import { AuthContext } from "../../context/authContext";
 
 const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
 
   return (
     <div className="navbar">
@@ -29,9 +29,10 @@ const Navbar = () => {
           <DarkModeOutlinedIcon onClick={toggle} />
         )}
         <GridViewOutlinedIcon />
-        <div className="search">
-          <SearchOutlinedIcon />
-          <input type="text" placeholder="Search..." />
+        <div className="search" onClick={logout}>
+          logout
+          {/* <SearchOutlinedIcon />
+          <input type="text" placeholder="Search..." /> */}
         </div>
       </div>
       <div className="right">

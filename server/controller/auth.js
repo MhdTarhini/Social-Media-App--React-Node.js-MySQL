@@ -47,8 +47,6 @@ const login = async (req, res) => {
     return res.status(400).json("User OR password Not Valid");
 
   const token = jwt.sign({ id: UserData.id }, "jwtkey");
-  // const token = jwt.sign({ id: data[0].id }, "jwtKey");
-  console.log(token);
   const userData = {
     id: UserData.id,
     name: UserData.name,

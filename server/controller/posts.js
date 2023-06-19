@@ -1,6 +1,5 @@
 const PostsModel = require("../models/posts");
 const userModels = require("../models/users");
-const fs = require("fs");
 
 const getPosts = async (req, res) => {
   try {
@@ -11,17 +10,8 @@ const getPosts = async (req, res) => {
   }
 };
 
-// const addPost = async (req, res) => {
-//   //   let newPath = "";
-//   //   if (req.file) {
-//   //     const { originalname, path } = req.file;
-//   //     const parts = originalname.split(".");
-//   //     const ext = parts[parts.length - 1];
-//   //     newPath = path + "." + ext;
-//   //     fs.renameSync(path, newPath);
-//   //   }
-//   console.log(req.body);
-//   console.log(req.file);
-// };
+const addPost = async (req, res) => {
+  console.log(req.body);
+};
 
-module.exports = { getPosts };
+module.exports = { getPosts, addPost };
