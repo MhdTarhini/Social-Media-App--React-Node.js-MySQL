@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
-import { useState } from "react";
-import axios from "axios";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
-  // const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loginInfo, setLoginInfo] = useState({
@@ -13,14 +13,13 @@ const Login = () => {
   });
 
   const handleChange = (e) => {
-    // login();
     setLoginInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/auth/login", loginInfo);
+      login(loginInfo);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
