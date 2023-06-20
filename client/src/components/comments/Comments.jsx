@@ -52,7 +52,9 @@ const Comments = (postId) => {
             <span>{comment.user.name}</span>
             <p>{comment.content}</p>
           </div>
-          <span className="date">1 hour ago</span>
+          <span className="date">
+            {moment().startOf(comment.createdAt).fromNow()}
+          </span>
         </div>
       ))}
     </div>
