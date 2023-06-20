@@ -51,6 +51,10 @@ const login = async (req, res) => {
     id: UserData.id,
     name: UserData.name,
     email: UserData.email,
+    profileImage: UserData.profileImage,
+    coverImage: UserData.coverImage,
+    website: UserData.website,
+    location: UserData.location,
   };
   res
     .cookie("access_token", token, {

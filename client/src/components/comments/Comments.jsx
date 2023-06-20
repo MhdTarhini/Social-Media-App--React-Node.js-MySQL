@@ -1,41 +1,56 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./comments.scss";
 import { AuthContext } from "../../context/authContext";
+import axios from "axios";
+import moment from "moment";
 
-const Comments = () => {
+const Comments = (postId) => {
   const { currentUser } = useContext(AuthContext);
-  //Temporary
-  const comments = [
-    {
-      id: 1,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "John Doe",
-      userId: 1,
-      profilePicture:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 2,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "Jane Doe",
-      userId: 2,
-      profilePicture:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
+  const [reloadComments, setreloadComments] = useState(false);
+
+  const [content, setContent] = useState("");
+  const [info, setInfo] = useState([]);
+  useEffect(() => {
+    const fetchComment = async (postId) => {
+      const res = await axios.post("/posts/getComments", postId);
+      setInfo(res.data);
+    };
+    fetchComment(postId);
+  }, [reloadComments]);
+  const submitComment = async () => {
+    setreloadComments(true);
+    try {
+      await axios.post("/posts/addComment", {
+        content: content,
+        postId: postId.postId,
+        userId: currentUser.id,
+        createdAt: moment().format(),
+      });
+      setContent("");
+      setreloadComments(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
-        <input type="text" placeholder="write a comment" />
-        <button>Send</button>
+        <img src={currentUser.profileImage} alt="" />
+        <input
+          value={content}
+          type="text"
+          placeholder="write a comment"
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <button onClick={submitComment}>Send</button>
       </div>
-      {comments.map((comment) => (
-        <div className="comment">
-          <img src={comment.profilePicture} alt="" />
+      {info.map((comment) => (
+        <div className="comment" key={comment.id}>
+          <img src={comment.user.profileImage} alt="" />
           <div className="info">
-            <span>{comment.name}</span>
-            <p>{comment.desc}</p>
+            <span>{comment.user.name}</span>
+            <p>{comment.content}</p>
           </div>
           <span className="date">1 hour ago</span>
         </div>

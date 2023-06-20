@@ -18,7 +18,7 @@ const CommentModel = sequelize.define(
         key: "id",
       },
     },
-    UserId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

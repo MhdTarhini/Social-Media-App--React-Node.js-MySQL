@@ -19,7 +19,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      login(loginInfo);
+      await login(loginInfo);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
