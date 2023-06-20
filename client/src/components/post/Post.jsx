@@ -36,7 +36,17 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.content}</p>
-          <img src={post.postImage} alt="" />
+          {post.postImage && (
+            <img src={`../uploads/Images/${post.postImage}`} alt="" />
+          )}
+          {post.postVideo && (
+            <video width="750" height="300" controls>
+              <source
+                src={`../uploads/Videos/${post.postVideo}`}
+                type="video/mp4"
+              />
+            </video>
+          )}
         </div>
         <div className="info">
           <div className="item">

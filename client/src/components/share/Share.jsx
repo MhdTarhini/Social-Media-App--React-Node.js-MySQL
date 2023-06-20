@@ -1,5 +1,6 @@
 import "./share.scss";
 import Image from "../../assets/img.png";
+import Video from "../../assets/4.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
@@ -16,7 +17,8 @@ const Share = () => {
       const formData = new FormData();
       formData.append("file", postImage);
       const res = await axios.post("/uploadImage", formData);
-      return res.data;
+      console.log(res.data);
+      return res.data.filename;
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +28,7 @@ const Share = () => {
       const formData = new FormData();
       formData.append("video", postVideo);
       const res = await axios.post("/uploadVideo", formData);
-      return res.data;
+      return res.data.filename;
     } catch (error) {
       console.log(error);
     }
@@ -37,8 +39,10 @@ const Share = () => {
         content: postcontent,
         postImage: postImage ? await uploadImage() : "",
         postVideo: postVideo ? await uploadVideo() : "",
-        createdAt: moment().startOf("hour").fromNow(),
+        createdAt: moment().format(),
+        userId: currentUser.id,
       });
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -82,15 +86,11 @@ const Share = () => {
               />
               <label htmlFor="Videofile">
                 <div className="item">
-                  <img src={Image} alt="" />
+                  <img src={Video} alt="" />
                   <span>Add Video</span>
                 </div>
               </label>
             </div>
-            {/* <div className="item">
-              <img src={Friend} alt="" />
-              <span>Tag Friends</span>
-            </div> */}
           </div>
           <div className="right">
             <button onClick={() => sharePost()}>Share</button>
