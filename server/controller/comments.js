@@ -10,9 +10,9 @@ const addComment = async (req, res) => {
       userId,
       createdAt,
     });
-    res.status(200).json("comment is created");
+    return res.status(200).json("comment is created");
   } catch (error) {
-    console.log(error);
+    return res.status(500).json(error);
   }
 };
 const getComments = async (req, res) => {
@@ -26,9 +26,9 @@ const getComments = async (req, res) => {
         },
       ],
     });
-    res.status(200).json(allComments.reverse());
+    return res.status(200).json(allComments.reverse());
   } catch (error) {
-    console.log(error);
+    return res.status(500).json(error);
   }
 };
 

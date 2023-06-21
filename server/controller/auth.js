@@ -25,9 +25,9 @@ const register = async (req, res) => {
   //create user
   try {
     await userModels.create({ name, email, password: hash });
-    res.status(201).json("User registered successfully");
+    return res.status(201).json("User registered successfully");
   } catch (error) {
-    res.status(500).json(error.errors[0].message);
+    return res.status(500).json(error.errors[0].message);
   }
 };
 
@@ -56,7 +56,7 @@ const login = async (req, res) => {
     website: UserData.website,
     location: UserData.location,
   };
-  res
+  return res
     .cookie("access_token", token, {
       httpOnly: true,
     })
@@ -65,7 +65,7 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res
+  return res
     .clearCookie("access_token", {
       sameSite: "none",
       secure: true,

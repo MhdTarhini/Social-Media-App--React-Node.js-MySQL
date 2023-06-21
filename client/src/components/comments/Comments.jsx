@@ -16,7 +16,7 @@ const Comments = (postId) => {
       setInfo(res.data);
     };
     fetchComment(postId);
-  }, [reloadComments]);
+  }, [reloadComments, postId]);
   const submitComment = async () => {
     setreloadComments(true);
     try {

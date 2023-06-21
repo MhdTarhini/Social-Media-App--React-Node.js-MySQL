@@ -2,18 +2,44 @@ import "./post.scss";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import moment from "moment";
+import axios from "axios";
+import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  const { currentUser } = useContext(AuthContext);
+  const [liked, setLiked] = useState(false);
 
-  //TEMPORARY
-  const liked = false;
+  useEffect(() => {
+    const fetchLikedPost = async () => {
+      const res = await axios.post("/likes", {
+        postId: post.id,
+        UserId: currentUser.id,
+      });
+      setLiked(res.data);
+    };
+    fetchLikedPost();
+  }, []);
+
+  const likedPost = async () => {
+    const updatedLiked = {
+      likeStatus: !liked,
+      postId: post.id,
+      UserId: currentUser.id,
+      createdAt: moment().format(),
+    };
+    setLiked(updatedLiked.likeStatus);
+    try {
+      await axios.post("/likes/addlike", updatedLiked);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="post">
@@ -49,17 +75,13 @@ const Post = ({ post }) => {
           )}
         </div>
         <div className="info">
-          <div className="item">
+          <div className="item" onClick={() => likedPost()}>
             {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
             12 Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
             12 Comments
-          </div>
-          <div className="item">
-            <ShareOutlinedIcon />
-            Share
           </div>
         </div>
         {commentOpen && <Comments postId={post.id} />}
