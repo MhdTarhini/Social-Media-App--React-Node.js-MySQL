@@ -30,8 +30,7 @@ const activityTracker = async (req, res, next) => {
     content = `${method} post`;
     addActivity(content, userId);
   }
-  console.log(` ${req.method} ${req.originalUrl}`);
-
+  // console.log(` ${req.method} ${req.originalUrl}`);
   next();
 };
 module.exports = activityTracker;
