@@ -9,10 +9,14 @@ const commentsRoute = require("./router/comments");
 const likesRoute = require("./router/likes");
 const uploadImage = require("./controller/uploads/uploadImage");
 const uploadVideo = require("./controller/uploads/uploadVideo");
+const verifyToken = require("./middleware/verifyToken");
+const activityTraker = require("./middleware/activityTracker");
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(verifyToken);
+// app.use(activityTraker);
 
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postsRoute);

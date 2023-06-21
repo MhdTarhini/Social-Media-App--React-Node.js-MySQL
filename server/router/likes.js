@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { likePost, alreadyLiked } = require("../controller/likes");
-const verifyToken = require("../middleware/verifyToken");
+const activityTracker = require("../middleware/activityTracker");
 
-router.post("/addlike", verifyToken, likePost);
-router.post("/", verifyToken, alreadyLiked);
+router.post("/addlike", activityTracker, likePost);
+router.post("/", alreadyLiked);
 
 module.exports = router;

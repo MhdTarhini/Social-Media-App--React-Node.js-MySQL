@@ -12,7 +12,7 @@ const Comments = (postId) => {
   const [info, setInfo] = useState([]);
   useEffect(() => {
     const fetchComment = async (postId) => {
-      const res = await axios.post("/comments/getComments", postId);
+      const res = await axios.post("/comments", postId);
       setInfo(res.data);
     };
     fetchComment(postId);

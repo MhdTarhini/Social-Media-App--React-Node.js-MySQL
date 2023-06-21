@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { getPosts, addPost } = require("../controller/posts");
-const verifyToken = require("../middleware/verifyToken");
+const activityTracker = require("../middleware/activityTracker");
 
 router.get("/", getPosts);
-router.post("/addPost", verifyToken, addPost);
+router.post("/addPost", activityTracker, addPost);
 
 module.exports = router;
