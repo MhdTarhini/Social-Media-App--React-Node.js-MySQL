@@ -2,7 +2,6 @@ const ActivityModel = require("../models/activityTracker");
 const userModels = require("../models/users");
 
 const getactivity = async (req, res) => {
-  console.log("22222222222");
   try {
     const allActivity = await ActivityModel.findAll({
       include: [

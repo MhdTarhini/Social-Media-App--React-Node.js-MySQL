@@ -4,12 +4,12 @@ import axios from "axios";
 
 const RightBar = () => {
   const [activityContent, setActivityContent] = useState([]);
+
   useEffect(() => {
     const fetchdata = async () => {
       try {
         const res = await axios.get("/activity");
-        console.log(res);
-        setActivityContent(res.data.reverse());
+        setActivityContent(res.data.reverse().slice(0, 5));
       } catch (error) {
         console.log(error);
       }

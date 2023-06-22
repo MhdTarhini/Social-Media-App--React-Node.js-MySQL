@@ -11,16 +11,26 @@ const uploadImage = require("./controller/uploads/uploadImage");
 const uploadVideo = require("./controller/uploads/uploadVideo");
 const verifyToken = require("./middleware/verifyToken");
 const activityRoute = require("./router/activity");
-// const http = require("http");
-// const ActivityModel = require("./models/activityTracker");
-// const server = http.createServer(app);
-// const io = require("socket.io")(server);
+const server = require("http").createServer(app);
+const WebSocket = require("./websocket");
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(verifyToken);
 // app.use(activityTraker);
+
+// function startWebSocket(server) {
+//   const wss = new WebSocket.Server({ server: server });
+//   wss.on("connection", function connection(ws) {
+//     console.log("a new client is connected");
+//     ws.send("welcome new client");
+//     ws.on("message", function incoming(message) {
+//       console.log("received message", message);
+//       ws.send("your message is ", message);
+//     });
+//   });
+// }
 
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postsRoute);
@@ -30,27 +40,7 @@ app.use("/api/uploadImage", uploadImage);
 app.use("/api/uploadVideo", uploadVideo);
 app.use("/api/activity", activityRoute);
 
-// io.on("connection", (socket) => {
-//   console.log("A user connected!");
-//   // Here, you can emit any data you want, like this:
-//   socket.emit("hello", "world");
-// });
-// // This is just an example, and you will need to modify it to fit your needs
-// // const { Model } = require("sequelize");
-// ActivityModel.afterUpdate((instance) => {
-//   io.emit("model_updated", instance);
-// });
-// io.on("connection", (socket) => {
-//   console.log("A user connected!");
-
-//   socket.on("disconnect", () => {
-//     console.log("A user disconnected!");
-//   });
-// });
-
-
-
-app.listen(4000, async () => {
+server.listen(4000, async () => {
   console.log("Server started on port 4000");
   await ConnectToDb();
 });
