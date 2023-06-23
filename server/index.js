@@ -11,16 +11,13 @@ const uploadImage = require("./controller/uploads/uploadImage");
 const uploadVideo = require("./controller/uploads/uploadVideo");
 const verifyToken = require("./middleware/verifyToken");
 const activityRoute = require("./router/activity");
-// const server = require("http").createServer(app);
-// const WebSocket = require("./websocket");
+
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(verifyToken);
 // app.use(activityTraker);
-
-
 
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postsRoute);
@@ -36,14 +33,3 @@ app.listen(4000, async () => {
 });
 
 
-// function startWebSocket(server) {
-//   const wss = new WebSocket.Server({ server: server });
-//   wss.on("connection", function connection(ws) {
-//     console.log("a new client is connected");
-//     ws.send("welcome new client");
-//     ws.on("message", function incoming(message) {
-//       console.log("received message", message);
-//       ws.send("your message is ", message);
-//     });
-//   });
-// }
