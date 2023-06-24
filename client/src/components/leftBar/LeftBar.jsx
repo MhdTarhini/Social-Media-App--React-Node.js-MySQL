@@ -1,9 +1,19 @@
 import "./leftBar.scss";
 import { AuthContext } from "../../context/authContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await axios.get("/users");
+      setUsers(res.data);
+    };
+    getUser();
+  }, []);
 
   return (
     <div className="leftBar">
@@ -13,6 +23,14 @@ const LeftBar = () => {
             <img src={currentUser.profilePic} alt="" />
             <span>{currentUser.name}</span>
           </div>
+          {users.map((user) => {
+            return (
+              <div className="user" key={user}>
+                <img src={user.profileImage} alt="" />
+                <span>{user.name}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

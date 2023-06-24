@@ -13,6 +13,8 @@ const verifyToken = require("./middleware/verifyToken");
 const activityRoute = require("./router/activity");
 const http = require("http");
 const chatRoom = require("./controller/chatRoom");
+const activityTracker = require("./middleware/activityTracker");
+const usersRoute = require("./router/user");
 
 const server = http.createServer(app);
 
@@ -24,6 +26,7 @@ app.use(verifyToken);
 // app.use(activityTraker);
 
 app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
 app.use("/api/posts", postsRoute);
 app.use("/api/comments", commentsRoute);
 app.use("/api/likes", likesRoute);
