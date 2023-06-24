@@ -6,8 +6,28 @@ import { Link } from "react-router-dom";
 
 const RightBar = () => {
   const [activityContent, setActivityContent] = useState([]);
+  const [addRoom, setAddRoom] = useState(false);
+  const [newRoomInfo, setNewRoomInfo] = useState({
+    RoomName: "",
+    RoomImage: "",
+  });
   const ROOM = ["NEWS", "SPORT", "FOOD"];
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewRoomInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const addNewRoom = () => {
+    console.log(newRoomInfo);
+    setNewRoomInfo({
+      RoomName: "",
+      RoomImage: "",
+    });
+  };
   useEffect(() => {
     const fetchdata = async () => {
       try {
@@ -26,7 +46,10 @@ const RightBar = () => {
           <span>Online Rooms</span>
           {ROOM.map((room) => {
             return (
-              <Link to={`/chat/${room}`} key={room}>
+              <Link
+                to={`/chat/${room}`}
+                key={room}
+                style={{ textDecoration: "none" }}>
                 <div className="user">
                   <div className="userInfo">
                     <img
@@ -40,6 +63,29 @@ const RightBar = () => {
               </Link>
             );
           })}
+          <div
+            onClick={() => setAddRoom(!addRoom)}
+            style={{ cursor: "pointer" }}>
+            + ADD NEW ROOM
+          </div>
+          {addRoom && (
+            <>
+              <input
+                type="text"
+                placeholder="Room Name"
+                name="RoomName"
+                value={newRoomInfo.RoomName}
+                onChange={handleInputChange}
+              />
+              <input
+                type="file"
+                name="RoomImage"
+                value={newRoomInfo.RoomImage}
+                onChange={handleInputChange}
+              />
+              <button onClick={addNewRoom}>ADD ROOM</button>
+            </>
+          )}
         </div>
         <div className="item">
           <span>Latest Activities</span>
