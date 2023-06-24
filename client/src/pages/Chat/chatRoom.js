@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./chatRoom.css";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
@@ -9,6 +9,7 @@ function ChatRoom() {
   const { currentUser } = useContext(AuthContext);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const messageContainerRef = useRef(null);
 
   const param = useParams();
   socket.emit("join_room", param.RoomId);
@@ -34,7 +35,14 @@ function ChatRoom() {
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
     });
-  }, [socket]);
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+    return () => {
+      socket.off("receive_message");
+    };
+  }, [messageList]);
   return (
     <div className="chatRoom">
       <div className="chatmain">
@@ -45,26 +53,34 @@ function ChatRoom() {
           <div>{param.RoomId}</div>
         </div>
 
-        <ul className="chatmessage-container" id="chatmessage-container">
+        <ul
+          className="chatmessage-container"
+          id="chatmessage-container"
+          ref={messageContainerRef}>
           {messageList.map((message) => {
             return (
-              <>
+              <div
+                key={`${message.author} ● ${new Date(
+                  Date.now()
+                ).getSeconds()} , ${
+                  Math.floor(Math.random() * (9999 - 1 + 1)) + 1
+                }`}>
                 {message.author === currentUser.name ? (
-                  <li className="chatmessage-left" key={message.time}>
+                  <li className="chatmessage-left">
                     <p className="chatmessage">{message.message}</p>
                     <span>
                       {message.author} ● {message.time}
                     </span>
                   </li>
                 ) : (
-                  <li className="chatmessage-right" key={message.time}>
+                  <li className="chatmessage-right">
                     <p className="chatmessage">{message.message}</p>
                     <span>
                       {message.author} ● {message.time}
                     </span>
                   </li>
                 )}
-              </>
+              </div>
             );
           })}
         </ul>
@@ -77,6 +93,7 @@ function ChatRoom() {
             name="message"
             id="chatmessage-input"
             className="chatmessage-input"
+            value={currentMessage}
             onChange={(e) => {
               setCurrentMessage(e.target.value);
             }}
@@ -90,9 +107,6 @@ function ChatRoom() {
           </button>
         </form>
       </div>
-      <h3 className="chatclients-total" id="chatclient-total">
-        Total clients: 2
-      </h3>
     </div>
   );
 }

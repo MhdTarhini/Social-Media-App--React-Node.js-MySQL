@@ -3,7 +3,6 @@ import "./rightBar.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import io from "socket.io-client";
 
 const RightBar = () => {
   const [activityContent, setActivityContent] = useState([]);
@@ -27,13 +26,7 @@ const RightBar = () => {
           <span>Online Rooms</span>
           {ROOM.map((room) => {
             return (
-              <Link
-                to={`/chat/${room}`}
-                key={room}
-                // onClick={() => {
-                // const socket = io.connect("http://localhost:4000");
-                // socket.emit("join_room", room);}}
-              >
+              <Link to={`/chat/${room}`} key={room}>
                 <div className="user">
                   <div className="userInfo">
                     <img
