@@ -11,7 +11,31 @@ const uploadImage = require("./controller/uploads/uploadImage");
 const uploadVideo = require("./controller/uploads/uploadVideo");
 const verifyToken = require("./middleware/verifyToken");
 const activityRoute = require("./router/activity");
+const http = require("http");
+const { Server } = require("socket.io");
 
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: "http://localhost:3000" },
+});
+
+io.on("connection", (socket) => {
+  console.log(`USER CONNECTED : ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User With ID : ${socket.id} Join Room ${data}`);
+  });
+
+  socket.on("send_message", (data) => {
+    console.log(data);
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user Disconnected", socket.id);
+  });
+});
 
 app.use(express.json());
 app.use(cookieParser());
@@ -27,7 +51,7 @@ app.use("/api/uploadImage", uploadImage);
 app.use("/api/uploadVideo", uploadVideo);
 app.use("/api/activity", activityRoute);
 
-app.listen(4000, async () => {
+server.listen(4000, async () => {
   console.log("Server started on port 4000");
   await ConnectToDb();
 });

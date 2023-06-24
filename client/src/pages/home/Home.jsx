@@ -6,11 +6,11 @@ import "./home.scss"
 const Home = () => {
   return (
     <div className="home">
-      <Stories/>
-      <Share/>
-      <Posts/>
+      {/* <Stories/> Coming Soon....*/}
+      <Share />
+      <Posts />
     </div>
-  )
+  );
 }
 
 export default Home
