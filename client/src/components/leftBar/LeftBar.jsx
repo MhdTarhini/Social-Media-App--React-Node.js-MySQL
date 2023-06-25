@@ -23,14 +23,14 @@ const LeftBar = () => {
             <img src={currentUser.profilePic} alt="" />
             <span>{currentUser.name}</span>
           </div>
-          {users.map((user) => {
-            return (
+          {users
+            .filter((user) => user.id !== currentUser.id)
+            .map((user) => (
               <div className="user" key={user.id}>
                 <img src={user.profileImage} alt="" />
                 <span>{user.name}</span>
               </div>
-            );
-          })}
+            ))}
         </div>
       </div>
     </div>

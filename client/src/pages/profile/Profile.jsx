@@ -10,9 +10,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { Link, useParams } from "react-router-dom";
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext);
+  const params = useParams();
   return (
     <div className="profile">
       <div className="images">
@@ -47,7 +49,14 @@ const Profile = () => {
                 <span>{currentUser.website}</span>
               </div>
             </div>
-            <button>follow</button>
+            {currentUser.id === parseInt(params.id) ? (
+              <Link to={`/EditProfile/${currentUser.id}`}>
+                {" "}
+                <button>Edit Profile</button>
+              </Link>
+            ) : (
+              <button>follow</button>
+            )}
           </div>
           <div className="right">
             <EmailOutlinedIcon />

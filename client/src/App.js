@@ -16,6 +16,7 @@ import "./style.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
+import EditProfile from "./pages/EditeProfile/EditProfile";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -65,6 +66,10 @@ function App() {
         {
           path: "/chat/:RoomId",
           element: <ChatRoom />,
+        },
+        {
+          path: "/EditProfile/:id",
+          element: <EditProfile />,
         },
       ],
     },

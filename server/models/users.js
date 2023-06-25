@@ -29,6 +29,18 @@ const userModels = sequelize.define(
     website: {
       type: DataTypes.STRING,
     },
+    facebook: {
+      type: DataTypes.STRING,
+    },
+    instagram: {
+      type: DataTypes.STRING,
+    },
+    twitter: {
+      type: DataTypes.STRING,
+    },
+    linkIn: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: false,
@@ -36,7 +48,7 @@ const userModels = sequelize.define(
 );
 
 // (async () => {
-//   await sequelize.sync({ force: true });
+//   await sequelize.sync({ alter: true });
 //   // Code here
 // })();
 
