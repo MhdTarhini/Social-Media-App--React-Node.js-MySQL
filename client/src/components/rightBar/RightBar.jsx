@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import "./rightBar.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:4000");
 
 
 const RightBar = () => {

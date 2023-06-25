@@ -12,7 +12,6 @@ function ChatRoom() {
   const messageContainerRef = useRef(null);
 
   const param = useParams();
-  socket.emit("join_room", param.RoomId);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -32,6 +31,8 @@ function ChatRoom() {
     }
   };
   useEffect(() => {
+    socket.emit("join_room", param.RoomId);
+
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
     });
@@ -42,7 +43,7 @@ function ChatRoom() {
     return () => {
       socket.off("receive_message");
     };
-  }, [messageList]);
+  }, [messageList, param.RoomId]);
   return (
     <div className="chatRoom">
       <div className="chatmain">
@@ -83,6 +84,7 @@ function ChatRoom() {
               </div>
             );
           })}
+
         </ul>
         <form
           className="chatmessage-form"

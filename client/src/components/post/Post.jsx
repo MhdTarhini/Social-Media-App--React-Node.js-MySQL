@@ -24,7 +24,7 @@ const Post = ({ post }) => {
       setLiked(res.data);
     };
     fetchLikedPost();
-  }, []);
+  }, [currentUser.id, post.id]);
 
   const likedPost = async () => {
     const updatedLiked = {

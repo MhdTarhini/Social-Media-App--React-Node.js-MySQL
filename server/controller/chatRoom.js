@@ -18,6 +18,10 @@ function chatRoom(server) {
       socket.to(data.room).emit("receive_message", data);
     });
 
+    socket.on("isTyping", (data) => {
+      socket.broadcast.emit("isTyping", data);
+    });
+
     socket.on("disconnect", () => {
       console.log("user Disconnected", socket.id);
     });

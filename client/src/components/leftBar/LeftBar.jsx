@@ -25,7 +25,7 @@ const LeftBar = () => {
           </div>
           {users.map((user) => {
             return (
-              <div className="user" key={user}>
+              <div className="user" key={user.id}>
                 <img src={user.profileImage} alt="" />
                 <span>{user.name}</span>
               </div>
