@@ -38,7 +38,7 @@ const userModels = sequelize.define(
     twitter: {
       type: DataTypes.STRING,
     },
-    linkIn: {
+    linkedin: {
       type: DataTypes.STRING,
     },
   },

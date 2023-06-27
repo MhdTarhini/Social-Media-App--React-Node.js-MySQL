@@ -30,7 +30,7 @@ const Navbar = () => {
           to={`/profile/${currentUser.id}`}
           style={{ textDecoration: "none" }}>
           <div className="user">
-            <img src={currentUser.profilePic} alt="" />
+            <img src={`../uploads/Images/${currentUser.profileImage}`} alt="" />
             <span>{currentUser.name}</span>
           </div>
         </Link>

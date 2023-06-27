@@ -6,37 +6,73 @@ import { AuthContext } from "../../context/authContext";
 const EditProfile = () => {
   const { currentUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
-    UserId: currentUser.id,
+    id: currentUser.id || "",
     profileImage: "",
     coverImage: "",
-    name: "",
-    email: "",
-    password: "",
-    location: "",
-    website: "",
-    facebook: "",
-    instagram: "",
-    linkedin: "",
-    twitter: "",
+    name: currentUser.name || "",
+    email: currentUser.email || "",
+    location: currentUser.location || "",
+    website: currentUser.website || "",
+    facebook: currentUser.facebook || "",
+    instagram: currentUser.instagram || "",
+    linkedin: currentUser.linkedin || "",
+    twitter: currentUser.twitter || "",
   });
+  const [profileImage, setProfileImage] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+
+  const profileImages = async () => {
+    try {
+      if (profileImage !== "") {
+        const profileImageData = new FormData();
+        profileImageData.append("file", profileImage);
+        const profileImageRes = await axios.post(
+          "/uploadImage",
+          profileImageData
+        );
+        return profileImageRes.data.filename;
+      } else {
+        return currentUser.profileImage;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const coverImages = async () => {
+    try {
+      if (coverImage !== "") {
+        const coverImageData = new FormData();
+        coverImageData.append("file", coverImage);
+        const coverImageRes = await axios.post("/uploadImage", coverImageData);
+        return coverImageRes.data.filename;
+      } else {
+        return currentUser.coverImage;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post("/users/updateUser", formData);
-    console.log(res);
-    setFormData({
-      profileImage: "",
-      coverImage: "",
-      name: "",
-      email: "",
-      password: "",
-      location: "",
-      website: "",
-      facebook: "",
-      instagram: "",
-      linkedin: "",
-      twitter: "",
-    });
+    const profileImageUrl = await profileImages();
+    const coverImageUrl = await coverImages();
+
+    const updatedFormData = {
+      ...formData,
+      profileImage: profileImageUrl,
+      coverImage: coverImageUrl,
+    };
+    console.log(updatedFormData.coverImage);
+
+    try {
+      const res = await axios.post("/users/updateUser", updatedFormData);
+      if (res.statusText === "OK") {
+        localStorage.setItem("user", JSON.stringify(updatedFormData));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -55,8 +91,8 @@ const EditProfile = () => {
           type="file"
           id="profile-image"
           name="profileImage"
-          value={formData.profileImage}
-          onChange={handleChange}
+          // value={formData.profileImage}
+          onChange={(e) => setProfileImage(e.target.files[0])}
         />
       </div>
 
@@ -66,8 +102,8 @@ const EditProfile = () => {
           type="file"
           id="cover-image"
           name="coverImage"
-          value={formData.coverImage}
-          onChange={handleChange}
+          // value={formData.coverImage}
+          onChange={(e) => setCoverImage(e.target.files[0])}
         />
       </div>
 

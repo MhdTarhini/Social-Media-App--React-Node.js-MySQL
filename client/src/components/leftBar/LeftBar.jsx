@@ -20,14 +20,14 @@ const LeftBar = () => {
       <div className="container">
         <div className="menu">
           <div className="user">
-            <img src={currentUser.profilePic} alt="" />
+            <img src={`../uploads/Images/${currentUser.profileImage}`} alt="" />
             <span>{currentUser.name}</span>
           </div>
           {users
             .filter((user) => user.id !== currentUser.id)
             .map((user) => (
               <div className="user" key={user.id}>
-                <img src={user.profileImage} alt="" />
+                <img src={`../uploads/Images/${user.profileImage}`} alt="" />
                 <span>{user.name}</span>
               </div>
             ))}

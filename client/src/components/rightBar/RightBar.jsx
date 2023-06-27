@@ -93,7 +93,10 @@ const RightBar = () => {
             return (
               <div className="user" key={activity.id}>
                 <div className="userInfo">
-                  <img src={activity.user.profileImage} alt="" />
+                  <img
+                    src={`../uploads/Images/${activity.user.profileImage}`}
+                    alt=""
+                  />
                   <p>
                     <span>{activity.user.name}</span> {activity.content}
                   </p>

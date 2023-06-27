@@ -18,8 +18,16 @@ const Profile = () => {
   return (
     <div className="profile">
       <div className="images">
-        <img src={currentUser.coverImage} alt="" className="cover" />
-        <img src={currentUser.profileImage} alt="" className="profilePic" />
+        <img
+          src={`../uploads/Images/${currentUser.coverImage}`}
+          alt=""
+          className="cover"
+        />
+        <img
+          src={`../uploads/Images/${currentUser.profileImage}`}
+          alt=""
+          className="profilePic"
+        />
       </div>
       <div className="profileContainer">
         <div className="uInfo">
