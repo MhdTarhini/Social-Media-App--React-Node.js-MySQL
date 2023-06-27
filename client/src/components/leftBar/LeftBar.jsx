@@ -2,6 +2,8 @@ import "./leftBar.scss";
 import { AuthContext } from "../../context/authContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Friends from "../../assets/1.png";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -19,17 +21,22 @@ const LeftBar = () => {
     <div className="leftBar">
       <div className="container">
         <div className="menu">
-          <div className="user">
-            <img src={`../uploads/Images/${currentUser.profileImage}`} alt="" />
-            <span>{currentUser.name}</span>
+          <div className="item">
+            <img src={Friends} alt="" />
+            <span>Friends</span>
           </div>
           {users
             .filter((user) => user.id !== currentUser.id)
             .map((user) => (
-              <div className="user" key={user.id}>
-                <img src={`../uploads/Images/${user.profileImage}`} alt="" />
-                <span>{user.name}</span>
-              </div>
+              <Link
+                to={`/profile/${user.id}`}
+                style={{ textDecoration: "none" }}
+                key={user.id}>
+                <div className="user">
+                  <img src={`../uploads/Images/${user.profileImage}`} alt="" />
+                  <span>{user.name}</span>
+                </div>
+              </Link>
             ))}
         </div>
       </div>

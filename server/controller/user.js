@@ -9,8 +9,20 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await userModels.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const updateUser = async (req, res) => {
-  console.log(req.body);
   const {
     id,
     profileImage,
@@ -50,4 +62,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, updateUser };
+module.exports = { getUsers, updateUser, getUser };

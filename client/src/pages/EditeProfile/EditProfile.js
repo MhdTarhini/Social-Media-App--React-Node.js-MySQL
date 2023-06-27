@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import "./EditProfile.css";
 import axios from "axios";
 import { AuthContext } from "../../context/authContext";
+import { Link } from "react-router-dom";
 
 const EditProfile = () => {
   const { currentUser } = useContext(AuthContext);
@@ -12,7 +13,6 @@ const EditProfile = () => {
     name: currentUser.name || "",
     email: currentUser.email || "",
     location: currentUser.location || "",
-    website: currentUser.website || "",
     facebook: currentUser.facebook || "",
     instagram: currentUser.instagram || "",
     linkedin: currentUser.linkedin || "",
@@ -20,7 +20,7 @@ const EditProfile = () => {
   });
   const [profileImage, setProfileImage] = useState("");
   const [coverImage, setCoverImage] = useState("");
-
+  const [isUpdated, setIsupdated] = useState(false);
   const profileImages = async () => {
     try {
       if (profileImage !== "") {
@@ -63,12 +63,15 @@ const EditProfile = () => {
       profileImage: profileImageUrl,
       coverImage: coverImageUrl,
     };
-    console.log(updatedFormData.coverImage);
 
     try {
       const res = await axios.post("/users/updateUser", updatedFormData);
       if (res.statusText === "OK") {
         localStorage.setItem("user", JSON.stringify(updatedFormData));
+        window.location.reload();
+
+        // Navigate to a different route
+        window.location.href = `/profile/${currentUser.id}`;
       }
     } catch (error) {
       console.log(error);
@@ -84,130 +87,130 @@ const EditProfile = () => {
   };
 
   return (
-    <form className="profile-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="profile-image">Profile Image</label>
-        <input
-          type="file"
-          id="profile-image"
-          name="profileImage"
-          // value={formData.profileImage}
-          onChange={(e) => setProfileImage(e.target.files[0])}
-        />
-      </div>
+    <>
+      {!isUpdated ? (
+        <form className="profile-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="profile-image">Profile Image</label>
+            <input
+              type="file"
+              id="profile-image"
+              name="profileImage"
+              // value={formData.profileImage}
+              onChange={(e) => setProfileImage(e.target.files[0])}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="cover-image">Cover Image</label>
-        <input
-          type="file"
-          id="cover-image"
-          name="coverImage"
-          // value={formData.coverImage}
-          onChange={(e) => setCoverImage(e.target.files[0])}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="cover-image">Cover Image</label>
+            <input
+              type="file"
+              id="cover-image"
+              name="coverImage"
+              // value={formData.coverImage}
+              onChange={(e) => setCoverImage(e.target.files[0])}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="location">location</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="location">location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="website">Website</label>
-        <input
-          type="text"
-          id="website"
-          name="website"
-          value={formData.website}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="facebook">Facebook</label>
+            <input
+              type="text"
+              id="facebook"
+              name="facebook"
+              value={formData.facebook}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="facebook">Facebook</label>
-        <input
-          type="text"
-          id="facebook"
-          name="facebook"
-          value={formData.facebook}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="instagram">Instagram</label>
+            <input
+              type="text"
+              id="instagram"
+              name="instagram"
+              value={formData.instagram}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="instagram">Instagram</label>
-        <input
-          type="text"
-          id="instagram"
-          name="instagram"
-          value={formData.instagram}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="linkedin">LinkedIn</label>
+            <input
+              type="text"
+              id="linkedin"
+              name="linkedin"
+              value={formData.linkedin}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="linkedin">LinkedIn</label>
-        <input
-          type="text"
-          id="linkedin"
-          name="linkedin"
-          value={formData.linkedin}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="twitter">Twitter</label>
+            <input
+              type="text"
+              id="twitter"
+              name="twitter"
+              value={formData.twitter}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="twitter">Twitter</label>
-        <input
-          type="text"
-          id="twitter"
-          name="twitter"
-          value={formData.twitter}
-          onChange={handleChange}
-        />
-      </div>
-
-      <button type="submit">Save</button>
-    </form>
+          <button type="submit">Save</button>
+        </form>
+      ) : (
+        <div className="notification-container">
+          <p className="notification-message">Your profile has been updated!</p>
+          <Link to={`/profile/${currentUser.id}`}>
+            <button className="notification-button">Go to Profile</button>
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 

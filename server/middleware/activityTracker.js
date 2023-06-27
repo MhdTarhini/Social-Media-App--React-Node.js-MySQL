@@ -28,6 +28,9 @@ const activityTracker = async (req, res, next) => {
   } else if (endpoint === "addPost") {
     content = `${method} post`;
     addActivity(content, userId);
+  } else if (endpoint === "updateUser") {
+    content = `${method} Update profile`;
+    addActivity(content, userId);
   }
   // console.log(` ${req.method} ${req.originalUrl}`);
   next();

@@ -53,7 +53,6 @@ const login = async (req, res) => {
     email: UserData.email,
     profileImage: UserData.profileImage,
     coverImage: UserData.coverImage,
-    website: UserData.website,
     location: UserData.location,
     facebook: UserData.facebook,
     instagram: UserData.instagram,

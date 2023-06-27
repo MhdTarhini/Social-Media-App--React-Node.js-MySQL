@@ -52,7 +52,7 @@ const Share = () => {
     <div className="share">
       <div className="container">
         <div className="top">
-          <img src={currentUser.profilePic} alt="" />
+          <img src={`../uploads/Images/${currentUser.profileImage}`} alt="" />
           <input
             type="text"
             value={postcontent}
