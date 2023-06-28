@@ -34,4 +34,18 @@ const alreadyLiked = async (req, res) => {
     res.status(500).json(error);
   }
 };
-module.exports = { likePost, alreadyLiked };
+
+const countLikes = async (req, res) => {
+  try {
+    const { postId } = req.query;
+
+    // Perform the database query to count rows with the specified postId
+    const count = await LikesModel.count({ where: { postId } });
+
+    return res.json({ count });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+module.exports = { likePost, alreadyLiked, countLikes };

@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Post from "../post/Post";
 import "./posts.scss";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
-const Posts = (props) => {
+const Posts = () => {
   const [postsInfo, setPostsInfo] = useState([]);
-  const { userId } = props;
+  const params = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts/`);
-        userId
-          ? setPostsInfo(res.data.filter((item) => item.userId === userId))
+        params.id
+          ? setPostsInfo(
+              res.data.filter((item) => item.userId === parseInt(params.id))
+            )
           : setPostsInfo(res.data);
       } catch (error) {
         console.log(error);

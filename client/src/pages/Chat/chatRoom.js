@@ -84,7 +84,6 @@ function ChatRoom() {
               </div>
             );
           })}
-
         </ul>
         <form
           className="chatmessage-form"
@@ -100,13 +99,8 @@ function ChatRoom() {
               setCurrentMessage(e.target.value);
             }}
           />
-          <div className="v-divider"></div>
-          <button type="submit" className="chatsend-button">
-            send
-            <span>
-              <i className="fas fa-paper-plane"></i>
-            </span>
-          </button>
+          <div className="chatv-divider"></div>
+          <button type="submit">send</button>
         </form>
       </div>
     </div>

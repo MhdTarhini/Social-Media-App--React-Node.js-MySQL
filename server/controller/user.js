@@ -23,43 +23,28 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const {
-    id,
-    profileImage,
-    coverImage,
-    name,
-    email,
-    location,
-    website,
-    facebook,
-    instagram,
-    linkedin,
-    twitter,
-  } = req.body;
   try {
-    await userModels.update(
-      {
-        profileImage: profileImage,
-        coverImage: coverImage,
-        name: name,
-        email: email,
-        location: location,
-        website: website,
-        facebook: facebook,
-        instagram: instagram,
-        linkedin: linkedin,
-        twitter: twitter,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
-    res.status(200).json("user is updated");
+    const userId = req.params.userId; // Assuming the user ID is passed as a route parameter
+
+    // Find the specific user you want to update based on the user ID
+    const userToUpdate = await userModels.findByPk(userId);
+
+    if (!userToUpdate) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the existing user with the values from req.body
+    const updatedUser = await userToUpdate.update(req.body);
+
+    return res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
-    res.status(500).json(error);
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
+  //     res.status(500).json(error);
+  //   }
 };
 
 module.exports = { getUsers, updateUser, getUser };

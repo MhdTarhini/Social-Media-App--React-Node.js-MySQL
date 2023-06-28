@@ -1,8 +1,6 @@
 const multer = require("multer");
 const express = require("express");
-const activityTracker = require("../../middleware/activityTracker");
 const router = express.Router();
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../client/public/uploads/Images");

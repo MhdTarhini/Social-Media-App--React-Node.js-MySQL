@@ -3,6 +3,8 @@ import "./comments.scss";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
 import moment from "moment";
+import Posts from "../posts/Posts";
+import Post from "../post/Post";
 
 const Comments = (postId) => {
   const { currentUser } = useContext(AuthContext);
@@ -36,7 +38,7 @@ const Comments = (postId) => {
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profileImage} alt="" />
+        <img src={`../uploads/Images/${currentUser.profileImage}`} alt="" />
         <input
           value={content}
           type="text"
@@ -47,7 +49,7 @@ const Comments = (postId) => {
       </div>
       {info.map((comment) => (
         <div className="comment" key={comment.id}>
-          <img src={comment.user.profileImage} alt="" />
+          <img src={`../uploads/Images/${comment.user.profileImage}`} alt="" />
           <div className="info">
             <span>{comment.user.name}</span>
             <p>{comment.content}</p>

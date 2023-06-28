@@ -4,7 +4,8 @@ const ActivityModel = require("../models/activityTracker");
 const activityTracker = async (req, res, next) => {
   const url = req.originalUrl;
   const endpoint = url.split("/").pop();
-  const { userId } = req.body;
+
+  const userId = req.body.userId || req.params.userId;
   const addActivity = async (content, userId) => {
     try {
       await ActivityModel.create({ content, userId });
@@ -12,13 +13,17 @@ const activityTracker = async (req, res, next) => {
       console.log(error);
     }
   };
+
+  let method = "";
   if (req.method === "POST") {
     method = "add a new";
   } else if (req.method === "PUT") {
-    mehode = "change this";
+    method = "change this";
   } else if (req.method === "DELETE") {
-    mehode = "delete this";
+    method = "delete this";
   }
+
+  let content = "";
   if (endpoint === "addComment") {
     content = `${method} comment`;
     addActivity(content, userId);
@@ -31,10 +36,14 @@ const activityTracker = async (req, res, next) => {
   } else if (endpoint === "updateUser") {
     content = `${method} Update profile`;
     addActivity(content, userId);
+  } else if (endpoint === userId) {
+    content = `just Update profile`;
+    addActivity(content, userId);
   }
-  // console.log(` ${req.method} ${req.originalUrl}`);
+
   next();
 };
+
 module.exports = activityTracker;
 
-
+// console.log(` ${req.method} ${req.originalUrl}`);

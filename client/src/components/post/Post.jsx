@@ -14,6 +14,8 @@ const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const [liked, setLiked] = useState(false);
+  const [countlikes, setCountLikes] = useState("");
+  const [countcomments, setCountComment] = useState("");
 
   useEffect(() => {
     const fetchLikedPost = async () => {
@@ -24,7 +26,9 @@ const Post = ({ post }) => {
       setLiked(res.data);
     };
     fetchLikedPost();
-  }, [currentUser.id, post.id]);
+    countLikes();
+    countComments();
+  }, [currentUser.id, post.id, liked]);
 
   const likedPost = async () => {
     const updatedLiked = {
@@ -36,6 +40,24 @@ const Post = ({ post }) => {
     setLiked(updatedLiked.likeStatus);
     try {
       await axios.post("/likes/addlike", updatedLiked);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const countLikes = async () => {
+    try {
+      const response = await axios.get(`/likes/count?postId=${post.id}`);
+      setCountLikes(response.data.count);
+      // console.log("Number of rows with the same postId:", count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const countComments = async (postId) => {
+    try {
+      const response = await axios.get(`/comments/count?postId=${post.id}`);
+      setCountComment(response.data.count);
     } catch (error) {
       console.log(error);
     }
@@ -77,11 +99,11 @@ const Post = ({ post }) => {
         <div className="info">
           <div className="item" onClick={() => likedPost()}>
             {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            12 Likes
+            {countlikes} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+            {countcomments} Comments
           </div>
         </div>
         {commentOpen && <Comments postId={post.id} />}

@@ -31,5 +31,18 @@ const getComments = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+const countComments = async (req, res) => {
+  try {
+    const { postId } = req.query;
 
-module.exports = { addComment, getComments };
+    // Perform the database query to count rows with the specified postId
+    const count = await CommentModel.count({ where: { postId } });
+
+    return res.json({ count });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { addComment, getComments, countComments };
